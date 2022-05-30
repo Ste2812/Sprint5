@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('plays', function (Blueprint $table) {
+        Schema::create('plays', function(Blueprint $table) {
             $table->id();
             $table->integer('dice_one');
             $table->integer('dice_two');
-            $table->integer('result');
+            $table->integer('points');
+            $table->string('result');
             $table->timestamps();
 
             $table->foreignId('user_id')->unsigned()->references('id')->on('users');

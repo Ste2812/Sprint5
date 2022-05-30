@@ -9,5 +9,7 @@ class Play extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
 
 }

@@ -20,23 +20,32 @@ use Laravel\Passport\Passport;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+
 });
 
-Route::prefix('/user')->group(function(){
 
-    Route::post('/register',[PassportAuthController::class, 'register']);
+    Route::post('/register',[PassportAuthController::class, 'register']);//rutas publicas 
     Route::post('/login',[PassportAuthController::class, 'login']);
     Route::post('/logout',[PassportAuthController::class, 'logout']);
-   // Route::middleware('auth:api')->group(function(){
-        //Route::get('user', [AuthController::class, 'authenticatedUserDetails']);
-    //});
+
+    Route::middleware('auth:api')->group(function () {
+        Route::get('/players', [Usercontroller::class, 'getAll']); //rutas privilegio admin
+        Route::get('/players/{id}/games', [Usercontroller::class, 'getGames']);
+        Route::get('/players/{id}/ranking', [Usercontroller::class, 'getRanking']);
+        Route::get('/players/{id}/ranking/loser', [Usercontroller::class, 'getRankingLoser']);
+        Route::get('/players/{id}/ranking/winner', [Usercontroller::class, 'getRankingWinner']);
+
+    });
+
+        Route::post('/players', [UserController::class, 'store']);//rutas publicas
+        Route::put('/players/{id}/', [UserController::class, 'update']);
+        Route::post('/players/{id}/games', [Usercontroller::class, 'addGame']);
+        Route::delete('/players/{id}/games', [Usercontroller::class, 'deleteGame']);
 
 
 
 
-  //  ('/all', [UserController::class, 'all']);
 
-});
 
 
 
