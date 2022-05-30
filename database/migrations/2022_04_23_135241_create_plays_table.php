@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('dice_two');
             $table->integer('points');
             $table->string('result');
+            $table->double('porcentaje_exito');
             $table->timestamps();
 
             $table->foreignId('user_id')->unsigned()->references('id')->on('users');

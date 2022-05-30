@@ -27,9 +27,6 @@ class GameController extends Controller
     {
 
 
-
-
-
     }
 
     /**
@@ -40,7 +37,28 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $gameDice= new Play();
+        $dice_one = $gameDice->gameDices();
+        $dice_two = $gameDice->gameDices();
+        $result= $dice_one + $dice_two;
+        $points = $result;
+
+        if ($result == 7) {
+            $result = 'won!';
+        } else {
+            $result = 'lost! try again';
+        }
+        $porcentaje_exito = $points / $dice_one * 100;
+        $user = User::find($request->user_id);
+        $user->plays()->create([
+            'dice_one' => $dice_one,
+            'dice_two' => $dice_two,
+            'points' => $points,
+            'result' => $result,
+            'porcentaje_exito' => $porcentaje_exito,
+        ]);
+
+
     }
 
     /**
