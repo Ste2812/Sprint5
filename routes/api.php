@@ -23,8 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 });
 
-
-    Route::post('/register',[PassportAuthController::class, 'register']);//rutas publicas 
+    Route::post('/register',[PassportAuthController::class, 'register']);//rutas publicas
     Route::post('/login',[PassportAuthController::class, 'login']);
     Route::post('/logout',[PassportAuthController::class, 'logout']);
 
@@ -36,11 +35,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
         Route::get('/players/{id}/ranking/winner', [Usercontroller::class, 'getRankingWinner']);
 
     });
-
+    Route::group(['middleware' => ['role:cliente']], function () {
+        //rutas accesibles solo para clientes
         Route::post('/players', [UserController::class, 'store']);//rutas publicas
         Route::put('/players/{id}/', [UserController::class, 'update']);
         Route::post('/players/{id}/games', [Usercontroller::class, 'addGame']);
         Route::delete('/players/{id}/games', [Usercontroller::class, 'deleteGame']);
+    });
+
+    Route::group(['middleware' => ['role:admin']], function () {
+        //rutas accesibles solo para admin
+        Route::get('/players/{id}', [UserController::class, 'show']);//rutas publicas
+        Route::delete('/players/{id}', [UserController::class, 'destroy']);
+    });
 
 
 

@@ -49,6 +49,7 @@ class PassportAuthController extends Controller
         $validateData['password'] = Hash::make($request->password);
 
         $user= User::create($validateData);
+        $user->assignRole('user');
 
         response([
             'name' => $user,
@@ -60,7 +61,7 @@ class PassportAuthController extends Controller
         $request->user()->token()->revoke();
 
         return response()->json([
-            'message' => 'Successfully logged out'
+            ['message' => 'Successfully logged out'], 200
         ]);
     }
 
