@@ -35,7 +35,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
         Route::get('/players/{id}/ranking/winner', [Usercontroller::class, 'getRankingWinner']);
 
     });
-    Route::group(['middleware' => ['role:cliente']], function () {
+    Route::group(['middleware' => ['role:user']], function () {
         //rutas accesibles solo para clientes
         Route::post('/players', [UserController::class, 'store']);//rutas publicas
         Route::put('/players/{id}/', [UserController::class, 'update']);
